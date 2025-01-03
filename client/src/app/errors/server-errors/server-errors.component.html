@@ -1,0 +1,10 @@
+<h4>Internal Server Error</h4>
+
+@if (error) {
+    <h5 class="text-danger">Error: {{error.message}}</h5>
+    <p>If you are seeing this error then angular is not to blame for the error!</p>
+
+    <h5>Stack Trace</h5>
+    {{error.details}}
+
+}

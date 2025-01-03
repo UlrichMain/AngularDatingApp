@@ -14,7 +14,7 @@ export class AccountService {
 
   login(model : any)
   {
-    return this.http.post<User>(this.baseUrl + 'Accounts/login', model).pipe(
+    return this.http.post<User>(this.baseUrl + 'accounts/login', model).pipe(
       map(user => {
         if (user)
         {
@@ -28,7 +28,7 @@ export class AccountService {
   
   register(model : any)
   {
-    return this.http.post<User>(this.baseUrl + 'Accounts/register', model).pipe(
+    return this.http.post<User>(this.baseUrl + 'accounts/register', model).pipe(
       map(user => {
         if (user)
         {
