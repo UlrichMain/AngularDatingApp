@@ -17,21 +17,30 @@ public class AccountsController(DataContext dataContext, ITokenService tokenServ
     [HttpPost("register")]
     public async Task<ActionResult<AppUser>> Register(RegisterDTO registerDTO)
     {
-        using var hmac = new HMACSHA512();
 
-        if (await UserExists(registerDTO.UserName)) return BadRequest("Username is Already Taken!");
+        if (await UserExists(registerDTO.UserName)) return BadRequest("Username is already taken");
 
-        var user = new AppUser
-        {
-            UserName = registerDTO.UserName,
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
-            PasswordSalt = hmac.Key,
-        };
+        return Ok(registerDTO);
 
-        dataContext.Users.Add(user);
-        await dataContext.SaveChangesAsync();
+        //using var hmac = new HMACSHA512();
 
-        return  Ok(user);
+        //if (await UserExists(registerDTO.UserName)) return BadRequest("Username is Already Taken!");
+
+        //var user = new AppUser
+        //{
+        //    UserName = registerDTO.UserName,
+        //    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
+        //    PasswordSalt = hmac.Key,
+        //    //KnownAs = "",
+        //    //Gender = "",
+        //    //City = "",
+        //    //Country = ""
+        //};
+
+        //dataContext.Users.Add(user);
+        //await dataContext.SaveChangesAsync();
+
+        //return  Ok(user);
     }
 
 
@@ -64,7 +73,7 @@ public class AccountsController(DataContext dataContext, ITokenService tokenServ
 
     private async Task<bool>  UserExists(string username)
     {
-        return await dataContext.Users.AnyAsync(x=> x.UserName.ToLower() == username.ToLower());
+        return await dataContext.Users.AnyAsync(x=> x.UserName.Equals(username, StringComparison.CurrentCultureIgnoreCase));
     }
 
 }
